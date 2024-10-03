@@ -1,43 +1,44 @@
 import Currency from './3-currency.js';
 
 export default class Pricing {
-  // Constructor initializes amount and currency
   constructor(amount, currency) {
-    // Validate that amount is a number and currency is an instance of Currency
-    if (typeof amount !== 'number' || !(currency instanceof Currency)) throw new Error();
-    this._amount = amount;  // Store the amount
-    this._currency = currency;  // Store the currency
+    this.amount = amount;
+    this.currency = currency;
   }
 
-  // Getter for the amount
   get amount() {
-    return this._amount;  // Return the stored amount
+    return this._amount;
   }
 
-  // Setter for the amount
   set amount(value) {
-    this._amount = value;  // Store the new amount
+    if (typeof value !== 'number') {
+      throw new TypeError('amount must be a number');
+    }
+    this._amount = value;
   }
 
-  // Getter for the currency
   get currency() {
-    return this._currency;  // Return the stored currency
+    return this._currency;
   }
 
-  // Setter for the currency
   set currency(value) {
-    this._currency = value;  // Store the new currency
+    if (!(value instanceof Currency)) {
+      throw new TypeError('currency must be a Currency');
+    }
+    this._currency = value;
   }
 
-  // Method to display the full price with currency details
   displayFullPrice() {
-    return `${this.amount} ${this.currency.name} (${this.currency.code})`;  // Format the price display string
+    return `${this.amount} ${this.currency.name} (${this.currency.code})`;
   }
 
-  // Static method to convert price using a given conversion rate
   static convertPrice(amount, conversionRate) {
-    // Validate that amount and conversionRate are numbers
-    if (typeof amount !== 'number' || typeof conversionRate !== 'number') throw new Error();
-    return amount * conversionRate;  // Return the converted price
+    if (typeof amount !== 'number') {
+      throw new TypeError('amount must be a number');
+    }
+    if (typeof conversionRate !== 'number') {
+      throw new TypeError('conversionRate must be a number');
+    }
+    return amount * conversionRate;
   }
 }
